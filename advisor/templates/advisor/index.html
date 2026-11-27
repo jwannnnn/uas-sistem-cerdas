@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Cerdas Deteksi Dini Penyakit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-primary mb-2">UAS Sistem Cerdas (TI24317) - PNM</span>
+        <h1 class="fw-bold">Sistem Deteksi Dini Risiko Penyakit Kronis</h1>
+        <p class="text-muted">Prediksi berbasis Machine Learning (Random Forest Classifier)</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="card-title fw-bold text-primary">1. Deteksi Risiko Diabetes</h4>
+                    <p class="card-text text-muted flex-grow-1">
+                        Analisis risiko diabetes berdasarkan 8 parameter klinis (Glukosa, Tekanan Darah, BMI, Usia, dll).
+                    </p>
+                    <small class="text-secondary d-block mb-3">Dataset: <a href="{{ kaggle_diabetes }}" target="_blank">Kaggle Pima Indians Diabetes</a></small>
+                    <a href="{% url 'prediksi_diabetes' %}" class="btn btn-primary w-100">Mulai Cek Diabetes</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4 d-flex flex-column">
+                    <h4 class="card-title fw-bold text-danger">2. Deteksi Risiko Penyakit Jantung</h4>
+                    <p class="card-text text-muted flex-grow-1">
+                        Analisis risiko penyakit jantung berdasarkan 13 parameter kardiovaskular (Tekanan Darah, Kolesterol, Detak Jantung, dll).
+                    </p>
+                    <small class="text-secondary d-block mb-3">Dataset: <a href="{{ kaggle_heart }}" target="_blank">Kaggle Heart Disease Dataset</a></small>
+                    <a href="{% url 'prediksi_jantung' %}" class="btn btn-danger w-100">Mulai Cek Jantung</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

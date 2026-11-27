@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Deteksi Risiko Penyakit Jantung</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-4" style="max-width: 850px;">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-sm mb-3">&larr; Kembali ke Beranda</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Prediksi Risiko Penyakit Jantung</h5>
+            <div>
+                <button type="button" class="btn btn-light btn-sm" onclick="isiNormal()">Contoh Normal</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="isiBerisiko()">Contoh Berisiko</button>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Usia (age)</label>
+                        <input type="number" step="any" name="age" id="age" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Jenis Kelamin (sex: 1=L, 0=P)</label>
+                        <input type="number" step="any" name="sex" id="sex" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tipe Nyeri Dada (cp: 0-3)</label>
+                        <input type="number" step="any" name="cp" id="cp" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tekanan Darah (trestbps)</label>
+                        <input type="number" step="any" name="trestbps" id="trestbps" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Kolesterol (chol)</label>
+                        <input type="number" step="any" name="chol" id="chol" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Gula Darah Puasa >120 (fbs: 1/0)</label>
+                        <input type="number" step="any" name="fbs" id="fbs" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Hasil EKG Istirahat (restecg: 0-2)</label>
+                        <input type="number" step="any" name="restecg" id="restecg" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Detak Jantung Maks (thalach)</label>
+                        <input type="number" step="any" name="thalach" id="thalach" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Angina Olahraga (exang: 1/0)</label>
+                        <input type="number" step="any" name="exang" id="exang" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Depresi ST (oldpeak)</label>
+                        <input type="number" step="any" name="oldpeak" id="oldpeak" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Kemiringan ST (slope: 0-2)</label>
+                        <input type="number" step="any" name="slope" id="slope" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Pembuluh Utama (ca: 0-3)</label>
+                        <input type="number" step="any" name="ca" id="ca" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Thalassemia (thal: 1-3)</label>
+                        <input type="number" step="any" name="thal" id="thal" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-danger w-100 mt-4">Analisis Risiko Jantung</button>
+            </form>
+
+            {% if hasil %}
+            <div class="alert {% if hasil.berisiko %}alert-danger{% else %}alert-success{% endif %} mt-4 mb-0">
+                <h5 class="alert-heading fw-bold">Hasil: {{ hasil.status }}</h5>
+                <p class="mb-0">Probabilitas Risiko Penyakit Jantung: <strong>{{ hasil.probabilitas }}%</strong></p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted small">
+            Sumber Dataset: <a href="{{ kaggle_url }}" target="_blank">{{ kaggle_url }}</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function isiNormal() {
+    document.getElementById('age').value = 58;
+    document.getElementById('sex').value = 0;
+    document.getElementById('cp').value = 0;
+    document.getElementById('trestbps').value = 100;
+    document.getElementById('chol').value = 248;
+    document.getElementById('fbs').value = 0;
+    document.getElementById('restecg').value = 0;
+    document.getElementById('thalach').value = 122;
+    document.getElementById('exang').value = 0;
+    document.getElementById('oldpeak').value = 1.0;
+    document.getElementById('slope').value = 1;
+    document.getElementById('ca').value = 0;
+    document.getElementById('thal').value = 2;
+}
+function isiBerisiko() {
+    document.getElementById('age').value = 52;
+    document.getElementById('sex').value = 1;
+    document.getElementById('cp').value = 2;
+    document.getElementById('trestbps').value = 172;
+    document.getElementById('chol').value = 199;
+    document.getElementById('fbs').value = 1;
+    document.getElementById('restecg').value = 1;
+    document.getElementById('thalach').value = 162;
+    document.getElementById('exang').value = 0;
+    document.getElementById('oldpeak').value = 0.5;
+    document.getElementById('slope').value = 2;
+    document.getElementById('ca').value = 0;
+    document.getElementById('thal').value = 3;
+}
+</script>
+</body>
+</html>

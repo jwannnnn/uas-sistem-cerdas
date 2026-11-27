@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Deteksi Risiko Diabetes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-4" style="max-width: 750px;">
+    <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-sm mb-3">&larr; Kembali ke Beranda</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Prediksi Risiko Diabetes</h5>
+            <div>
+                <button type="button" class="btn btn-light btn-sm" onclick="isiNormal()">Contoh Normal</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="isiBerisiko()">Contoh Berisiko</button>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Jumlah Kehamilan (Pregnancies)</label>
+                        <input type="number" step="any" name="Pregnancies" id="Pregnancies" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Kadar Glukosa (Glucose)</label>
+                        <input type="number" step="any" name="Glucose" id="Glucose" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tekanan Darah (BloodPressure)</label>
+                        <input type="number" step="any" name="BloodPressure" id="BloodPressure" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ketebalan Kulit (SkinThickness)</label>
+                        <input type="number" step="any" name="SkinThickness" id="SkinThickness" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Kadar Insulin (Insulin)</label>
+                        <input type="number" step="any" name="Insulin" id="Insulin" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Indeks Massa Tubuh (BMI)</label>
+                        <input type="number" step="any" name="BMI" id="BMI" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Riwayat Keturunan (DiabetesPedigreeFunction)</label>
+                        <input type="number" step="any" name="DiabetesPedigreeFunction" id="DiabetesPedigreeFunction" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Usia / Tahun (Age)</label>
+                        <input type="number" step="any" name="Age" id="Age" class="form-control" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-4">Analisis Risiko Diabetes</button>
+            </form>
+
+            {% if hasil %}
+            <div class="alert {% if hasil.berisiko %}alert-danger{% else %}alert-success{% endif %} mt-4 mb-0">
+                <h5 class="alert-heading fw-bold">Hasil: {{ hasil.status }}</h5>
+                <p class="mb-0">Probabilitas Risiko Diabetes: <strong>{{ hasil.probabilitas }}%</strong></p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted small">
+            Sumber Dataset: <a href="{{ kaggle_url }}" target="_blank">{{ kaggle_url }}</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function isiNormal() {
+    document.getElementById('Pregnancies').value = 1;
+    document.getElementById('Glucose').value = 89;
+    document.getElementById('BloodPressure').value = 66;
+    document.getElementById('SkinThickness').value = 23;
+    document.getElementById('Insulin').value = 94;
+    document.getElementById('BMI').value = 28.1;
+    document.getElementById('DiabetesPedigreeFunction').value = 0.167;
+    document.getElementById('Age').value = 21;
+}
+function isiBerisiko() {
+    document.getElementById('Pregnancies').value = 6;
+    document.getElementById('Glucose').value = 168;
+    document.getElementById('BloodPressure').value = 74;
+    document.getElementById('SkinThickness').value = 35;
+    document.getElementById('Insulin').value = 175;
+    document.getElementById('BMI').value = 34.6;
+    document.getElementById('DiabetesPedigreeFunction').value = 0.627;
+    document.getElementById('Age').value = 50;
+}
+</script>
+</body>
+</html>

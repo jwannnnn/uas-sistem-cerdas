@@ -1,0 +1,14 @@
+import pandas as pd
+import joblib
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("kos_madiun.csv")
+df["ac_num"] = df["ac"].map({"ya": 1, "tidak": 0})
+
+X = df[["jarak_km", "rating", "ac_num"]]
+y = df["harga"]
+
+model = LinearRegression().fit(X, y)
+joblib.dump(model, "model_kos.joblib")
+
+print("Sukses! Model kos tersimpan ke model_kos.joblib")
